@@ -8,8 +8,6 @@ import (
 	"os/signal"
 	"syscall"
 	_ "unsafe"
-	"http"
-	"network"
 
 	"x-ui/config"
 	"x-ui/database"
