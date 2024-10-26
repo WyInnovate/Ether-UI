@@ -289,3 +289,26 @@ install_x-ui() {
 echo -e "${green}Running...${plain}"
 install_dependencies
 install_x-ui $1
+
+#!/bin/bash
+
+# 生成 CA 证书和密钥
+openssl genpkey -algorithm RSA -out /etc/ssl/private/ca.key
+openssl req -x509 -new -nodes -key /etc/ssl/private/ca.key -sha256 -days 365 -out /etc/ssl/certs/ca.crt
+
+# 生成服务器证书和密钥
+openssl genpkey -algorithm RSA -out /etc/ssl/private/server.key
+openssl req -new -key /etc/ssl/private/server.key -out /etc/ssl/private/server.csr
+openssl x509 -req -in /etc/ssl/private/server.csr -CA /etc/ssl/certs/ca.crt -CAkey /etc/ssl/private/ca.key -CAcreateserial -out /etc/ssl/certs/server.crt -days 365 -sha256
+
+# 生成客户端证书和密钥
+openssl genpkey -algorithm RSA -out /etc/ssl/private/client.key
+openssl req -new -key /etc/ssl/private/client.key -out /etc/ssl/private/client.csr
+openssl x509 -req -in /etc/ssl/private/client.csr -CA /etc/ssl/certs/ca.crt -CAkey /etc/ssl/private/ca.key -CAcreateserial -out /etc/ssl/certs/client.crt -days 365 -sha256
+
+echo "所有证书已生成并存储在 /etc/ssl/certs 和 /etc/ssl/private 目录中。"
+
+# 添加 SSH 端口转发说明
+echo "如果您的客户端不支持 mTLS，您可以使用以下命令进行 SSH 端口转发："
+echo "ssh -L 9090:localhost:8443 user@remote-server"
+echo "通过本地的 9090 端口访问远程服务器上的管理面板。"
