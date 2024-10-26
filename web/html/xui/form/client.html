@@ -1,87 +1,88 @@
 {{define "form/client"}}
-<a-form layout="horizontal" v-if="client" :colon="false" :label-col="{ md: {span:8} }" :wrapper-col="{ md: {span:14} }">
-    <a-form-item label='{{ i18n "pages.inbounds.enable" }}'>
-        <a-switch v-model="client.enable"></a-switch>
+<a-form layout="horizontal" v-if="client" :colon="false" :label-col="{ md: {span:8} }" :wrapper-col="{ md: {span:14} }" class="tech-form">
+    <a-form-item label='{{ i18n "pages.inbounds.enable" }}' class="tech-form-item">
+        <a-switch v-model="client.enable" class="tech-switch"></a-switch>
     </a-form-item>
-    <a-form-item>
+    <a-form-item class="tech-form-item">
         <template slot="label">
             <a-tooltip>
                 <template slot="title">
                     <span>{{ i18n "pages.inbounds.emailDesc" }}</span>
                 </template>
-                {{ i18n "pages.inbounds.email" }}
-                <a-icon type="sync" @click="client.email = RandomUtil.randomLowerAndNum(9)"></a-icon>
+                <span class="tech-label">{{ i18n "pages.inbounds.email" }}</span>
+                <a-icon type="sync" @click="client.email = RandomUtil.randomLowerAndNum(9)" class="tech-icon"></a-icon>
             </a-tooltip>
         </template>
-        <a-input v-model.trim="client.email"></a-input>
+        <a-input v-model.trim="client.email" class="tech-input"></a-input>
     </a-form-item>
-    <a-form-item v-if="inbound.protocol === Protocols.TROJAN || inbound.protocol === Protocols.SHADOWSOCKS">
+    <a-form-item v-if="inbound.protocol === Protocols.TROJAN || inbound.protocol === Protocols.SHADOWSOCKS" class="tech-form-item">
         <template slot="label">
             <a-tooltip>
                 <template slot="title">
                     <span>{{ i18n "reset" }}</span>
                 </template>
-                {{ i18n "password" }}
-                <a-icon v-if="inbound.protocol === Protocols.SHADOWSOCKS" @click="client.password = RandomUtil.randomShadowsocksPassword()" type="sync"></a-icon>
-                <a-icon v-if="inbound.protocol === Protocols.TROJAN" @click="client.password = RandomUtil.randomSeq(10)" type="sync"></a-icon>
+                <span class="tech-label">{{ i18n "password" }}</span>
+                <a-icon v-if="inbound.protocol === Protocols.SHADOWSOCKS" @click="client.password = RandomUtil.randomShadowsocksPassword()" type="sync" class="tech-icon"></a-icon>
+                <a-icon v-if="inbound.protocol === Protocols.TROJAN" @click="client.password = RandomUtil.randomSeq(10)" type="sync" class="tech-icon"></a-icon>
             </a-tooltip>
         </template>
-        <a-input v-model.trim="client.password"></a-input>
+        <a-input v-model.trim="client.password" class="tech-input"></a-input>
     </a-form-item>
-    <a-form-item v-if="inbound.protocol === Protocols.VMESS || inbound.protocol === Protocols.VLESS">
+    <a-form-item v-if="inbound.protocol === Protocols.VMESS || inbound.protocol === Protocols.VLESS" class="tech-form-item">
         <template slot="label">
             <a-tooltip>
                 <template slot="title">
                     <span>{{ i18n "reset" }}</span>
                 </template>
-                ID <a-icon @click="client.id = RandomUtil.randomUUID()" type="sync"></a-icon>
+                <span class="tech-label">ID</span>
+                <a-icon @click="client.id = RandomUtil.randomUUID()" type="sync" class="tech-icon"></a-icon>
             </a-tooltip>
         </template>
-        <a-input v-model.trim="client.id"></a-input>
+        <a-input v-model.trim="client.id" class="tech-input"></a-input>
     </a-form-item>
-    <a-form-item v-if="client.email && app.subSettings.enable">
+    <a-form-item v-if="client.email && app.subSettings.enable" class="tech-form-item">
         <template slot="label">
             <a-tooltip>
                 <template slot="title">
                     <span>{{ i18n "pages.inbounds.subscriptionDesc" }}</span>
                 </template>
-                Subscription
-                <a-icon @click="client.subId = RandomUtil.randomLowerAndNum(16)" type="sync"></a-icon>
+                <span class="tech-label">Subscription</span>
+                <a-icon @click="client.subId = RandomUtil.randomLowerAndNum(16)" type="sync" class="tech-icon"></a-icon>
             </a-tooltip>
         </template>
-        <a-input v-model.trim="client.subId"></a-input>
+        <a-input v-model.trim="client.subId" class="tech-input"></a-input>
     </a-form-item>
-    <a-form-item v-if="client.email && app.tgBotEnable">
+    <a-form-item v-if="client.email && app.tgBotEnable" class="tech-form-item">
         <template slot="label">
             <a-tooltip>
                 <template slot="title">
                     <span>{{ i18n "pages.inbounds.telegramDesc" }}</span>
                 </template>
-                Telegram ID
-                <a-icon type="question-circle"></a-icon>
+                <span class="tech-label">Telegram ID</span>
+                <a-icon type="question-circle" class="tech-icon"></a-icon>
             </a-tooltip>
         </template>
-        <a-input v-model.trim="client.tgId"></a-input>
+        <a-input v-model.trim="client.tgId" class="tech-input"></a-input>
     </a-form-item>
-    <a-form-item v-if="inbound.canEnableTlsFlow()" label='Flow'>
-        <a-select v-model="client.flow" :dropdown-class-name="themeSwitcher.currentTheme">
+    <a-form-item v-if="inbound.canEnableTlsFlow()" label='Flow' class="tech-form-item">
+        <a-select v-model="client.flow" :dropdown-class-name="themeSwitcher.currentTheme" class="tech-select">
             <a-select-option value="" selected>{{ i18n "none" }}</a-select-option>
             <a-select-option v-for="key in TLS_FLOW_CONTROL" :value="key">[[ key ]]</a-select-option>
         </a-select>
     </a-form-item>
-    <a-form-item>
+    <a-form-item class="tech-form-item">
         <template slot="label">
             <a-tooltip>
                 <template slot="title">
                     <span>{{ i18n "pages.inbounds.meansNoLimit" }}</span>
                 </template>
-                {{ i18n "pages.inbounds.totalFlow" }}
-                <a-icon type="question-circle"></a-icon>
+                <span class="tech-label">{{ i18n "pages.inbounds.totalFlow" }}</span>
+                <a-icon type="question-circle" class="tech-icon"></a-icon>
             </a-tooltip>
         </template>
-        <a-input-number v-model="client._totalGB" :min="0"></a-input-number> GB
+        <a-input-number v-model="client._totalGB" :min="0" class="tech-input-number"></a-input-number> GB
     </a-form-item>
-    <a-form-item v-if="isEdit && clientStats" label='{{ i18n "usage" }}'>
+    <a-form-item v-if="isEdit && clientStats" label='{{ i18n "usage" }}' class="tech-form-item">
         <a-tag :color="clientUsageColor(clientStats, app.trafficDiff)">
             [[ sizeFormat(clientStats.up) ]] / 
             [[ sizeFormat(clientStats.down) ]]
@@ -89,37 +90,129 @@
         </a-tag>
         <a-tooltip>
             <template slot="title">{{ i18n "pages.inbounds.resetTraffic" }}</template>
-            <a-icon type="retweet" @click="resetClientTraffic(client.email,clientStats.inboundId,$event.target)" v-if="client.email.length > 0"></a-icon>
+            <a-icon type="retweet" @click="resetClientTraffic(client.email,clientStats.inboundId,$event.target)" v-if="client.email.length > 0" class="tech-icon"></a-icon>
         </a-tooltip>
     </a-form-item>
-    <a-form-item label='{{ i18n "pages.client.delayedStart" }}'>
-        <a-switch v-model="delayedStart" @click="client._expiryTime=0"></a-switch>
+    <a-form-item label='{{ i18n "pages.client.delayedStart" }}' class="tech-form-item">
+        <a-switch v-model="delayedStart" @click="client._expiryTime=0" class="tech-switch"></a-switch>
     </a-form-item>
-    <a-form-item v-if="delayedStart" label='{{ i18n "pages.client.expireDays" }}'>
-        <a-input-number v-model.number="delayedExpireDays" :min="0"></a-input-number>
+    <a-form-item v-if="delayedStart" label='{{ i18n "pages.client.expireDays" }}' class="tech-form-item">
+        <a-input-number v-model.number="delayedExpireDays" :min="0" class="tech-input-number"></a-input-number>
     </a-form-item>
-    <a-form-item v-else>
+    <a-form-item v-else class="tech-form-item">
         <template slot="label">
             <a-tooltip>
                 <template slot="title">{{ i18n "pages.inbounds.leaveBlankToNeverExpire" }}</template>
-                {{ i18n "pages.inbounds.expireDate" }}
-                <a-icon type="question-circle"></a-icon>
+                <span class="tech-label">{{ i18n "pages.inbounds.expireDate" }}</span>
+                <a-icon type="question-circle" class="tech-icon"></a-icon>
             </a-tooltip>
         </template>
         <a-date-picker :show-time="{ format: 'HH:mm:ss' }" format="YYYY-MM-DD HH:mm:ss"
                         :dropdown-class-name="themeSwitcher.currentTheme"
-                        v-model="client._expiryTime"></a-date-picker>
+                        v-model="client._expiryTime" class="tech-date-picker"></a-date-picker>
         <a-tag color="red" v-if="isEdit && isExpiry">Expired</a-tag>
     </a-form-item>
-    <a-form-item v-if="client.expiryTime != 0">
+    <a-form-item v-if="client.expiryTime != 0" class="tech-form-item">
         <template slot="label">
             <a-tooltip>
                 <template slot="title">{{ i18n "pages.client.renewDesc" }}</template>
-                {{ i18n "pages.client.renew" }}
-                <a-icon type="question-circle"></a-icon>
+                <span class="tech-label">{{ i18n "pages.client.renew" }}</span>
+                <a-icon type="question-circle" class="tech-icon"></a-icon>
             </a-tooltip>
         </template>
-        <a-input-number v-model.number="client.reset" :min="0"></a-input-number>
-</a-form-item>
+        <a-input-number v-model.number="client.reset" :min="0" class="tech-input-number"></a-input-number>
+    </a-form-item>
 </a-form>
+
+<style scoped>
+.tech-form {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+}
+
+.tech-form-item > .ant-form-item-label > label,
+.tech-label {
+    color: #00ffff;
+    font-weight: bold;
+    text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff;
+}
+
+.tech-input,
+.tech-input-number .ant-input-number-input,
+.tech-select .ant-select-selection--single,
+.tech-date-picker .ant-calendar-picker-input {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border: none;
+    border-bottom: 1px solid #00ffff;
+    border-radius: 0;
+    box-shadow: none;
+    transition: border-bottom 0.3s;
+}
+
+.tech-input:hover,
+.tech-input-number .ant-input-number-input:hover,
+.tech-select .ant-select-selection--single:hover,
+.tech-date-picker .ant-calendar-picker-input:hover {
+    border-bottom: 1px solid #ffffff;
+}
+
+.tech-input::placeholder,
+.tech-input-number .ant-input-number-input::placeholder,
+.tech-date-picker .ant-calendar-picker-input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.tech-icon {
+    color: #00ffff;
+    transition: transform 0.3s, color 0.3s;
+    cursor: pointer;
+}
+
+.tech-icon:hover {
+    transform: rotate(360deg);
+    color: #ffffff;
+}
+
+.tech-switch .ant-switch-checked {
+    background-color: #00ffff;
+}
+
+.tech-form-item {
+    margin-bottom: 24px;
+}
+
+.ant-form-item-control-wrapper {
+    max-width: 400px;
+}
+
+.tech-input-number .ant-input-number {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: #ffffff;
+}
+
+.tech-input-number .ant-input-number-handler-wrap {
+    display: none;
+}
+
+.tech-select .ant-select-selection {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: #ffffff;
+}
+
+.tech-date-picker .ant-calendar-picker {
+    width: 100%;
+}
+
+.ant-tag {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: #ffffff;
+}
+</style>
 {{end}}
