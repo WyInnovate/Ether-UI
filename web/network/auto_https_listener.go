@@ -1,6 +1,6 @@
 package network
 
-import "net" "log" 
+import ("net" "log" )
 
 type AutoHttpsListener struct {
 	net.Listener
