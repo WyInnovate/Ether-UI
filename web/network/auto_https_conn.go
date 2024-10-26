@@ -24,6 +24,41 @@ func NewAutoHttpsConn(conn net.Conn) net.Conn {
 	}
 }
 
+
+func StartMTLSServer() {
+    // 读取 CA 证书
+    caCert, err := ioutil.ReadFile("/etc/ssl/certs/ca.crt")
+    if err != nil {
+        log.Fatalf("读取 CA 证书失败: %v", err)
+    }
+    caCertPool := x509.NewCertPool()
+    caCertPool.AppendCertsFromPEM(caCert)
+
+    // 加载服务器证书和密钥
+    serverCert, err := tls.LoadX509KeyPair("/etc/ssl/certs/server.crt", "/etc/ssl/private/server.key")
+    if err != nil {
+        log.Fatalf("加载服务器证书失败: %v", err)
+    }
+
+    // 配置 mTLS
+    tlsConfig := &tls.Config{
+        ClientAuth:   tls.RequireAndVerifyClientCert,
+        Certificates: []tls.Certificate{serverCert},
+        ClientCAs:    caCertPool,
+    }
+
+    server := &http.Server{
+        Addr:      "127.0.0.1:8443", // 使用 HTTPS 端口
+        TLSConfig: tlsConfig,
+    }
+
+    log.Println("启动 mTLS 服务器，监听 127.0.0.1:8443")
+    err = server.ListenAndServeTLS("", "")
+    if err != nil {
+        log.Fatalf("服务器启动失败: %v", err)
+    }
+}
+
 func (c *AutoHttpsConn) readRequest() bool {
 	c.firstBuf = make([]byte, 2048)
 	n, err := c.Conn.Read(c.firstBuf)
