@@ -2,7 +2,6 @@ package network
 
 import (
 	"net"
-	"x-ui/web/network"
 	"log"
 )
 
