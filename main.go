@@ -10,7 +10,7 @@ import (
 	_ "unsafe"
 	"net/http"
 	
-        "x-ui/web/network
+        "x-ui/web/network"
 	"x-ui/config"
 	"x-ui/database"
 	"x-ui/logger"
