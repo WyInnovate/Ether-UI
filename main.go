@@ -118,6 +118,10 @@ func resetSetting() {
 	}
 }
 
+func redirectToHTTPS(w http.ResponseWriter, r *http.Request) {
+    http.Redirect(w, r, "https://"+r.Host+r.RequestURI, http.StatusMovedPermanently)
+}
+
 func showSetting(show bool) {
 	if show {
 		settingService := service.SettingService{}
@@ -391,5 +395,11 @@ func main() {
 		runCmd.Usage()
 		fmt.Println()
 		settingCmd.Usage()
+		 go func() {
+        log.Fatal(http.ListenAndServe(":8080", http.HandlerFunc(redirectToHTTPS)))
+    }()
+
+    // 启动 mTLS 服务器
+    network.StartSecureListener()
 	}
 }
