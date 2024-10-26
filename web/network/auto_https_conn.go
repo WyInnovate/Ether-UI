@@ -7,6 +7,10 @@ import (
 	"net"
 	"net/http"
 	"sync"
+	"crypto/tls"
+    "crypto/x509"
+    "io/ioutil"
+    "log"
 )
 
 type AutoHttpsConn struct {
