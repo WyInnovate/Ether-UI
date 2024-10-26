@@ -1,6 +1,6 @@
 package network
 
-import ("net" "log" )
+import "net"
 
 type AutoHttpsListener struct {
 	net.Listener
@@ -18,9 +18,4 @@ func (l *AutoHttpsListener) Accept() (net.Conn, error) {
 		return nil, err
 	}
 	return NewAutoHttpsConn(conn), nil
-}
-
-func StartSecureListener() {
-    log.Println("正在启动带有 mTLS 的 HTTPS 监听器")
-    StartMTLSServer()
 }
