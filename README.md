@@ -1,10 +1,9 @@
 # Ether-UI
 **An Advanced Web Panel • Built on Xray Core**
 
-![](https://img.shields.io/github/v/release/alireza0/x-ui.svg)
-![](https://img.shields.io/docker/pulls/alireza7/x-ui.svg)
-[![Go Report Card](https://goreportcard.com/badge/github.com/alireza0/x-ui)](https://goreportcard.com/report/github.com/alireza0/x-ui)
-[![Downloads](https://img.shields.io/github/downloads/alireza0/x-ui/total.svg)](https://img.shields.io/github/downloads/alireza0/x-ui/total.svg)
+![](https://img.shields.io/github/v/release/Etheray/Ether-UI.svg)
+[![Go Report Card](https://goreportcard.com/badge/github.com/Etheray/Ether-UI)](https://goreportcard.com/report/github.com/Etheray/Ether-UI)
+[![Downloads](https://img.shields.io/github/downloads/alireza0/x-ui/total.svg)](https://img.shields.io/github/downloads/Etheray/Ether-UI/total.svg)
 [![License](https://img.shields.io/badge/license-GPL%20V3-blue.svg?longCache=true)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 
 > **Disclaimer:** This project is only for personal learning and communication, please do not use it for illegal purposes, please do not use it in a production environment
@@ -32,7 +31,7 @@ Part of the code comes from ahmad0489! Thanks! Mr.ahmad has the copyright of his
 ## Install & Upgrade to Latest Version
 
 ```sh
-bash <(curl -Ls https://raw.githubusercontent.com/alireza0/x-ui/master/install.sh)
+bash <(curl -Ls https://raw.githubusercontent.com/Etheray/Ether-UI/master/install.sh)
 ```
 
 ## Install Custom Version
@@ -40,7 +39,7 @@ bash <(curl -Ls https://raw.githubusercontent.com/alireza0/x-ui/master/install.s
 **Step 1:** To install an old version, use following installation command. e.g., version `1.8.0`:
 
 ```sh
-VERSION=1.8.0 && bash <(curl -Ls "https://raw.githubusercontent.com/alireza0/x-ui/$VERSION/install.sh") $VERSION
+VERSION=1.8.0 && bash <(curl -Ls "https://raw.githubusercontent.com/Etheray/Ether-UI/$VERSION/install.sh") $VERSION
 ```
 
 ## Manual Install & Upgrade
@@ -62,7 +61,7 @@ case "${ARCH}" in
   *) XUI_ARCH="amd64" ;;
 esac
 
-wget https://github.com/alireza0/x-ui/releases/latest/download/x-ui-linux-${XUI_ARCH}.tar.gz
+wget https://github.com/Etheray/Ether-UI/releases/latest/download/x-ui-linux-${XUI_ARCH}.tar.gz
 ```
 
 2. Once the compressed package is downloaded, execute the following commands to install or upgrade x-ui:
@@ -106,7 +105,7 @@ curl -fsSL https://get.docker.com | sh
 **Step 2:** Clone the Project Repository:
 
    ```sh
-   git clone https://github.com/alireza0/x-ui.git
+   git clone https://github.com/Etheray/Ether-UI.git
    cd x-ui
    ```
 
@@ -391,11 +390,6 @@ Your final config should look like this:
 Save your changes and restart the Xray Service
 </details>
 
-## A Special Thanks to
-
-- [HexaSoftwareTech](https://github.com/HexaSoftwareTech/)
-- [MHSanaei](https://github.com/MHSanaei)
-
 ## Acknowledgment
 
 - [Loyalsoldier](https://github.com/Loyalsoldier/v2ray-rules-dat) (License: **GPL-3.0**): _The enhanced version of V2Ray routing rule._
@@ -403,4 +397,4 @@ Save your changes and restart the Xray Service
 
 ## Stargazers over Time
 
-[![Stargazers over time](https://starchart.cc/alireza0/x-ui.svg)](https://starchart.cc/alireza0/x-ui)
+[![Stargazers over time](https://starchart.cc/Etheray/Ether-UI.svg)](https://starchart.cc/Etheray/Ether-UI)
