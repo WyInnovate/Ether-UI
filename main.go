@@ -8,9 +8,7 @@ import (
 	"os/signal"
 	"syscall"
 	_ "unsafe"
-	"net/http"
-	
-        "x-ui/web/network"
+
 	"x-ui/config"
 	"x-ui/database"
 	"x-ui/logger"
@@ -118,10 +116,6 @@ func resetSetting() {
 	} else {
 		fmt.Println("reset setting success")
 	}
-}
-
-func redirectToHTTPS(w http.ResponseWriter, r *http.Request) {
-    http.Redirect(w, r, "https://"+r.Host+r.RequestURI, http.StatusMovedPermanently)
 }
 
 func showSetting(show bool) {
@@ -397,11 +391,5 @@ func main() {
 		runCmd.Usage()
 		fmt.Println()
 		settingCmd.Usage()
-		 go func() {
-        log.Fatal(http.ListenAndServe(":8080", http.HandlerFunc(redirectToHTTPS)))
-    }()
-
-    // 启动 mTLS 服务器
-    network.StartSecureListener()
 	}
 }
