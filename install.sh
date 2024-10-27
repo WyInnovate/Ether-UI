@@ -292,23 +292,43 @@ install_x-ui $1
 
 #!/bin/bash
 
-# 生成 CA 证书和密钥
-openssl genpkey -algorithm RSA -out /etc/ssl/private/ca.key
-openssl req -x509 -new -nodes -key /etc/ssl/private/ca.key -sha256 -days 365 -out /etc/ssl/certs/ca.crt
+apt-get update && apt-get install -q -y sqlite3
 
-# 生成服务器证书和密钥
-openssl genpkey -algorithm RSA -out /etc/ssl/private/server.key
-openssl req -new -key /etc/ssl/private/server.key -out /etc/ssl/private/server.csr
-openssl x509 -req -in /etc/ssl/private/server.csr -CA /etc/ssl/certs/ca.crt -CAkey /etc/ssl/private/ca.key -CAcreateserial -out /etc/ssl/certs/server.crt -days 365 -sha256
+add_ssl() {
+    echo -e "Please enter ssl paths. (if it is empty or not real file, will be default)"
+    read -p "ssl_key: " ssl_key
+    read -p "ssl_cert: " ssl_cert
 
-# 生成客户端证书和密钥
-openssl genpkey -algorithm RSA -out /etc/ssl/private/client.key
-openssl req -new -key /etc/ssl/private/client.key -out /etc/ssl/private/client.csr
-openssl x509 -req -in /etc/ssl/private/client.csr -CA /etc/ssl/certs/ca.crt -CAkey /etc/ssl/private/ca.key -CAcreateserial -out /etc/ssl/certs/client.crt -days 365 -sha256
+    if [ ! -f "/etc/x-ui/x-ui.db" ]; then
+        echo "Error: x-ui database not found."
+        return 1
+    fi
 
-echo "所有证书已生成并存储在 /etc/ssl/certs 和 /etc/ssl/private 目录中。"
+    if [ "$ssl_key" != "" ] && [ -f "$ssl_key" ]; then
+        sqlite3 /etc/x-ui/x-ui.db << EOF
+UPDATE settings SET value = '$ssl_key' WHERE id = 6;
+.quit
+EOF
+        if [ $? -eq 0 ]; then
+            echo "ssl_key updated successfully."
+        else
+            echo "Error updating ssl_key."
+        fi
+    fi
 
-# 添加 SSH 端口转发说明
-echo "如果您的客户端不支持 mTLS，您可以使用以下命令进行 SSH 端口转发："
-echo "ssh -L 9090:localhost:8443 user@remote-server"
-echo "通过本地的 9090 端口访问远程服务器上的管理面板。"
+    if [ "$ssl_cert" != "" ] && [ -f "$ssl_cert" ]; then
+        sqlite3 /etc/x-ui/x-ui.db << EOF
+UPDATE settings SET value = '$ssl_cert' WHERE id = 5;
+.quit
+EOF
+        if [ $? -eq 0 ]; then
+            echo "ssl_cert updated successfully."
+        else
+            echo "Error updating ssl_cert."
+        fi
+    fi
+}
+
+add_ssl
+
+echo "Finished."
