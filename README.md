@@ -11,6 +11,7 @@
 
 **If you think this project is helpful to you, you may wish to give a**:star2:
 
+Part of the code comes from @ ahmad0489! Thanks!
 
 ## Quick Overview
 | Features                               |      Enable?       |
