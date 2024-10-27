@@ -295,40 +295,40 @@ install_x-ui $1
 apt-get update && apt-get install -q -y sqlite3
 
 add_ssl() {
-    echo -e "Please enter ssl paths. (if it is empty or not real file, will be default)"
-    read -p "ssl_key: " ssl_key
-    read -p "ssl_cert: " ssl_cert
+    echo -e "Please enter SSL paths. (If empty or not a valid file, defaults will be applied)"
+    read -p "SSL Key Path: " ssl_key
+    read -p "SSL Cert Path: " ssl_cert
 
+    # Check if the x-ui database exists
     if [ ! -f "/etc/x-ui/x-ui.db" ]; then
         echo "Error: x-ui database not found."
         return 1
     fi
 
-    if [ "$ssl_key" != "" ] && [ -f "$ssl_key" ]; then
-        sqlite3 /etc/x-ui/x-ui.db << EOF
-UPDATE settings SET value = '$ssl_key' WHERE id = 6;
-.quit
-EOF
+    # Update ssl_key if provided and valid
+    if [ -n "$ssl_key" ] && [ -f "$ssl_key" ]; then
+        sqlite3 /etc/x-ui/x-ui.db "UPDATE settings SET value = '$ssl_key' WHERE id = 6;"
         if [ $? -eq 0 ]; then
-            echo "ssl_key updated successfully."
+            echo "SSL Key path updated successfully."
         else
-            echo "Error updating ssl_key."
+            echo "Error updating SSL Key path."
         fi
+    else
+        echo "Warning: SSL Key path is empty or invalid; no changes made."
     fi
 
-    if [ "$ssl_cert" != "" ] && [ -f "$ssl_cert" ]; then
-        sqlite3 /etc/x-ui/x-ui.db << EOF
-UPDATE settings SET value = '$ssl_cert' WHERE id = 5;
-.quit
-EOF
+    # Update ssl_cert if provided and valid
+    if [ -n "$ssl_cert" ] && [ -f "$ssl_cert" ]; then
+        sqlite3 /etc/x-ui/x-ui.db "UPDATE settings SET value = '$ssl_cert' WHERE id = 5;"
         if [ $? -eq 0 ]; then
-            echo "ssl_cert updated successfully."
+            echo "SSL Certificate path updated successfully."
         else
-            echo "Error updating ssl_cert."
+            echo "Error updating SSL Certificate path."
         fi
+    else
+        echo "Warning: SSL Certificate path is empty or invalid; no changes made."
     fi
 }
 
 add_ssl
-
-echo "Finished."
+echo "SSL configuration completed."
